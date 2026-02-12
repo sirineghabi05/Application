@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+
+<BorderPane prefHeight="700.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.entrepreneurModifierController"
+            style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #F8FAFC 0%, #F1F5F9 50%, #EFF6FF 100%)">
+
+   <padding>
+      <Insets top="25" right="30" bottom="25" left="30" />
+   </padding>
+
+   <!-- TOP : En-tête avec navigation -->
+   <top>
+      <VBox spacing="20">
+         <!-- Barre de navigation -->
+         <HBox spacing="15" alignment="CENTER_LEFT">
+            <Button style="-fx-background-color: transparent; -fx-text-fill: #4A6FA5; -fx-cursor: hand; -fx-font-weight: bold">
+               <graphic>
+                  <HBox spacing="5" alignment="CENTER">
+                     <Label text="←" style="-fx-font-size: 16px" />
+                     <Label text="Retour à la liste" />
+                  </HBox>
+               </graphic>
+            </Button>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="idLabel" text="ID: #00000" style="-fx-text-fill: #64748B; -fx-font-size: 13px; -fx-font-weight: bold" />
+         </HBox>
+
+         <!-- Titre principal -->
+         <VBox spacing="10" alignment="CENTER_LEFT">
+            <HBox spacing="15" alignment="CENTER_LEFT">
+               <StackPane>
+                  <Circle radius="22" fill="linear-gradient(from 0% 0% to 100% 100%, #3B82F6 0%, #1D4ED8 100%)">
+                     <effect>
+                        <DropShadow radius="8" color="rgba(59, 130, 246, 0.3)" />
+                     </effect>
+                  </Circle>
+                  <Label text="✏️" style="-fx-font-size: 18px" />
+               </StackPane>
+               <VBox spacing="5">
+                  <Label text="MODIFICATION D'ENTREPRENEUR"
+                         style="-fx-font-weight: 800; -fx-font-family: 'Segoe UI'; -fx-font-size: 24px; -fx-text-fill: #1E293B" />
+                  <Label text="Mettez à jour les informations du profil sélectionné"
+                         style="-fx-font-family: 'Segoe UI'; -fx-text-fill: #64748B; -fx-font-size: 14px" />
+               </VBox>
+            </HBox>
+            <Separator />
+         </VBox>
+      </VBox>
+   </top>
+
+   <!-- CENTER : Formulaire de modification -->
+   <center>
+      <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 5"
+                  hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+         <VBox spacing="25" style="-fx-padding: 10">
+            <!-- Carte principale -->
+            <VBox spacing="25" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 35;
+                                      -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 20, 0, 0, 6)">
+
+               <!-- En-tête de la carte -->
+               <HBox spacing="20" alignment="CENTER_LEFT">
+                  <VBox spacing="8">
+                     <Label text="🔄 Mise à jour des informations"
+                            style="-fx-font-weight: bold; -fx-font-family: 'Segoe UI'; -fx-text-fill: #334155; -fx-font-size: 18px" />
+                     <Label text="Modifiez les champs nécessaires ci-dessous. Les champs marqués d'un * sont obligatoires."
+                            style="-fx-font-family: 'Segoe UI'; -fx-text-fill: #64748B; -fx-font-size: 13px" wrapText="true" />
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <!-- Badge de statut -->
+                  <HBox alignment="CENTER" spacing="8" style="-fx-background-color: #DCFCE7; -fx-background-radius: 20; -fx-padding: 6 15">
+                     <Circle radius="4" fill="#10B981" />
+                     <Label fx:id="statutLabel" text="Actif" style="-fx-text-fill: #065F46; -fx-font-weight: bold; -fx-font-size: 13px" />
+                  </HBox>
+               </HBox>
+
+               <!-- Formulaire en grille -->
+               <GridPane hgap="20" vgap="20">
+                  <columnConstraints>
+                     <ColumnConstraints halignment="RIGHT" minWidth="150" prefWidth="180" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="300" />
+                     <ColumnConstraints minWidth="150" prefWidth="180" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="300" />
+                  </columnConstraints>
+
+                  <!-- Ligne 1 : Nom et Prénom -->
+                  <Label text="Nom *"
+                         style="-fx-font-weight: 600; -fx-font-family: 'Segoe UI'; -fx-text-fill: #475569; -fx-font-size: 14px"
+                         GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                  <TextField fx:id="nomField" promptText="Entrez le nom"
+                             style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E2E8F0;
+                                    -fx-padding: 12 15; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;
+                                    -fx-background-color: #F8FAFC"
+                             GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="1" />
+
+                  <Label text="Prénom *"
+                         style="-fx-font-weight: 600; -fx-font-family: 'Segoe UI'; -fx-text-fill: #475569; -fx-font-size: 14px"
+                         GridPane.rowIndex="0" GridPane.columnIndex="2" />
+                  <TextField fx:id="prenomField" promptText="Entrez le prénom"
+                             style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E2E8F0;
+                                    -fx-padding: 12 15; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;
+                                    -fx-background-color: #F8FAFC"
+                             GridPane.rowIndex="0" GridPane.columnIndex="3" />
+
+                  <!-- Ligne 2 : Email -->
+                  <Label text="Email *"
+                         style="-fx-font-weight: 600; -fx-font-family: 'Segoe UI'; -fx-text-fill: #475569; -fx-font-size: 14px"
+                         GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                  <TextField fx:id="emailField" promptText="email@exemple.com"
+                             style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E2E8F0;
+                                    -fx-padding: 12 15; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;
+                                    -fx-background-color: #F8FAFC"
+                             GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="3" />
+
+                  <!-- Ligne 3 : Téléphone et Adresse -->
+                  <Label text="Téléphone"
+                         style="-fx-font-weight: 600; -fx-font-family: 'Segoe UI'; -fx-text-fill: #475569; -fx-font-size: 14px"
+                         GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                  <TextField fx:id="telephoneField" promptText="+XX XXX XXX XXX"
+                             style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E2E8F0;
+                                    -fx-padding: 12 15; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;
+                                    -fx-background-color: #F8FAFC"
+                             GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                  <Label text="Adresse"
+                         style="-fx-font-weight: 600; -fx-font-family: 'Segoe UI'; -fx-text-fill: #475569; -fx-font-size: 14px"
+                         GridPane.rowIndex="2" GridPane.columnIndex="2" />
+                  <TextField fx:id="adresseField" promptText="Adresse complète"
+                             style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E2E8F0;
+                                    -fx-padding: 12 15; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;
+                                    -fx-background-color: #F8FAFC"
+                             GridPane.rowIndex="2" GridPane.columnIndex="3" />
+
+                  <!-- Ligne 4 : Mot de passe -->
+                  <Label text="Mot de passe"
+                         style="-fx-font-weight: 600; -fx-font-family: 'Segoe UI'; -fx-text-fill: #475569; -fx-font-size: 14px"
+                         GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                  <HBox spacing="10" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.columnSpan="3">
+                     <PasswordField fx:id="mdpField" promptText="Laisser vide pour conserver l'ancien"
+                                    style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E2E8F0;
+                                           -fx-padding: 12 15; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;
+                                           -fx-background-color: #F8FAFC; -fx-pref-width: 300"
+                                    HBox.hgrow="ALWAYS" />
+                     <Button text="Générer"
+                             style="-fx-background-color: #F1F5F9; -fx-text-fill: #475569;
+                                    -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-weight: 600;
+                                    -fx-cursor: hand; -fx-font-size: 13px">
+                        <effect>
+                           <DropShadow radius="3" color="rgba(0,0,0,0.1)" />
+                        </effect>
+                     </Button>
+                     <Button text="Voir"
+                             style="-fx-background-color: #EFF6FF; -fx-text-fill: #3B82F6;
+                                    -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-weight: 600;
+                                    -fx-cursor: hand; -fx-font-size: 13px">
+                        <effect>
+                           <DropShadow radius="3" color="rgba(59, 130, 246, 0.2)" />
+                        </effect>
+                     </Button>
+                  </HBox>
+
+                  <!-- Ligne 5 : Date d'inscription -->
+                  <Label text="Date d'inscription"
+                         style="-fx-font-weight: 600; -fx-font-family: 'Segoe UI'; -fx-text-fill: #475569; -fx-font-size: 14px"
+                         GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                  <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="1" GridPane.columnSpan="3">
+                     <TextField fx:id="dateField" promptText="AAAA-MM-JJ"
+                                style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E2E8F0;
+                                       -fx-padding: 12 15; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;
+                                       -fx-background-color: #F8FAFC; -fx-pref-width: 200"
+                                HBox.hgrow="ALWAYS" />
+                     <Button text="Aujourd'hui"
+                             style="-fx-background-color: #F0F9FF; -fx-text-fill: #0369A1;
+                                    -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-weight: 600;
+                                    -fx-cursor: hand; -fx-font-size: 13px">
+                        <effect>
+                           <DropShadow radius="3" color="rgba(3, 105, 161, 0.2)" />
+                        </effect>
+                     </Button>
+                     <Button text="Réinitialiser"
+                             style="-fx-background-color: #FEF2F2; -fx-text-fill: #DC2626;
+                                    -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-weight: 600;
+                                    -fx-cursor: hand; -fx-font-size: 13px">
+                        <effect>
+                           <DropShadow radius="3" color="rgba(220, 38, 38, 0.2)" />
+                        </effect>
+                     </Button>
+                  </HBox>
+
+                  <!-- Contraintes de lignes -->
+                  <rowConstraints>
+                     <RowConstraints prefHeight="70" />
+                     <RowConstraints prefHeight="70" />
+                     <RowConstraints prefHeight="70" />
+                     <RowConstraints prefHeight="70" />
+                     <RowConstraints prefHeight="70" />
+                  </rowConstraints>
+               </GridPane>
+
+               <!-- Section informations avancées -->
+               <VBox spacing="15" style="-fx-background-color: #F8FAFC; -fx-background-radius: 12; -fx-padding: 20">
+                  <HBox spacing="10" alignment="CENTER_LEFT">
+                     <Label text="📊 Informations complémentaires"
+                            style="-fx-font-weight: 600; -fx-font-family: 'Segoe UI'; -fx-text-fill: #334155; -fx-font-size: 16px" />
+                     <Region HBox.hgrow="ALWAYS" />
+                     <Label text="Dernière modification : Aujourd'hui"
+                            style="-fx-text-fill: #64748B; -fx-font-size: 12px; -fx-font-style: italic" />
+                  </HBox>
+
+                  <HBox spacing="30" alignment="CENTER">
+                     <!-- Date de création -->
+                     <VBox spacing="5" alignment="CENTER" style="-fx-padding: 10">
+                        <Label text="Date de création" style="-fx-text-fill: #64748B; -fx-font-size: 12px" />
+                        <Label fx:id="dateCreationLabel" text="01/01/2024"
+                               style="-fx-text-fill: #3B82F6; -fx-font-weight: bold; -fx-font-size: 18px" />
+                     </VBox>
+
+                     <Separator orientation="VERTICAL" prefHeight="40" style="-fx-background-color: #E2E8F0" />
+
+                     <!-- Projets actifs -->
+                     <VBox spacing="5" alignment="CENTER" style="-fx-padding: 10">
+                        <Label text="Projets actifs" style="-fx-text-fill: #64748B; -fx-font-size: 12px" />
+                        <HBox spacing="8" alignment="CENTER">
+                           <Circle radius="6" fill="#10B981" />
+                           <Label fx:id="projetsLabel" text="3 projets"
+                                  style="-fx-text-fill: #047857; -fx-font-weight: bold; -fx-font-size: 18px" />
+                        </HBox>
+                     </VBox>
+
+                     <Separator orientation="VERTICAL" prefHeight="40" style="-fx-background-color: #E2E8F0" />
+
+                     <!-- Statut du compte -->
+                     <VBox spacing="5" alignment="CENTER" style="-fx-padding: 10">
+                        <Label text="Statut du compte" style="-fx-text-fill: #64748B; -fx-font-size: 12px" />
+                        <HBox spacing="8" alignment="CENTER">
+                           <Circle radius="6" fill="#10B981" />
+                           <Label text="Vérifié" style="-fx-text-fill: #047857; -fx-font-weight: bold; -fx-font-size: 16px" />
+                        </HBox>
+                     </VBox>
+                  </HBox>
+               </VBox>
+
+               <!-- Note informative -->
+               <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: #FFFBEB; -fx-background-radius: 10; -fx-padding: 15">
+                  <Label text="💡" style="-fx-font-size: 16px; -fx-text-fill: #D97706" />
+                  <VBox spacing="3">
+                     <Label text="Conseil de modification"
+                            style="-fx-font-weight: 600; -fx-font-family: 'Segoe UI'; -fx-text-fill: #92400E; -fx-font-size: 13px" />
+                     <Label text="Seuls les champs modifiés seront mis à jour. La date d'inscription ne peut pas être antérieure à la date de création."
+                            style="-fx-font-family: 'Segoe UI'; -fx-text-fill: #92400E; -fx-font-size: 12px" wrapText="true" />
+                  </VBox>
+               </HBox>
+            </VBox>
+         </VBox>
+      </ScrollPane>
+   </center>
+
+   <!-- BOTTOM : Barre d'actions -->
+   <bottom>
+      <VBox spacing="20">
+         <Separator style="-fx-background-color: #E2E8F0" />
+
+         <HBox spacing="20" alignment="CENTER">
+            <!-- Bouton Annuler -->
+            <Button mnemonicParsing="false" onAction="#handleAnnuler"
+                    prefHeight="50" prefWidth="140"
+                    style="-fx-background-color: transparent;
+                           -fx-border-color: #CBD5E0; -fx-border-width: 2; -fx-border-radius: 12;
+                           -fx-text-fill: #64748B; -fx-cursor: hand; -fx-font-weight: 600;
+                           -fx-font-family: 'Segoe UI'; -fx-font-size: 14px">
+               <graphic>
+                  <HBox spacing="8" alignment="CENTER">
+                     <Label text="←" style="-fx-text-fill: #64748B; -fx-font-size: 16px" />
+                     <Label text="Annuler" />
+                  </HBox>
+               </graphic>
+               <effect>
+                  <DropShadow radius="4" color="rgba(0,0,0,0.08)" />
+               </effect>
+            </Button>
+
+            <!-- Bouton Réinitialiser -->
+            <Button mnemonicParsing="false" onAction="#reinitialiserFormulaire"
+                    prefHeight="50" prefWidth="160"
+                    style="-fx-background-color: #F1F5F9;
+                           -fx-background-radius: 12; -fx-border-radius: 12;
+                           -fx-text-fill: #475569; -fx-cursor: hand; -fx-font-weight: 600;
+                           -fx-font-family: 'Segoe UI'; -fx-font-size: 14px">
+               <graphic>
+                  <HBox spacing="8" alignment="CENTER">
+                     <Label text="↻" style="-fx-text-fill: #475569; -fx-font-size: 16px" />
+                     <Label text="Réinitialiser" />
+                  </HBox>
+               </graphic>
+               <effect>
+                  <DropShadow radius="4" color="rgba(0,0,0,0.1)" />
+               </effect>
+            </Button>
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <!-- Bouton Sauvegarder -->
+            <Button mnemonicParsing="false" onAction="#modifierEntrepreneur"
+                    prefHeight="50" minWidth="200"
+                    style="-fx-background-color: #3B82F6;
+                           -fx-background-radius: 12; -fx-border-radius: 12;
+                           -fx-cursor: hand; -fx-font-weight: 700;
+                           -fx-font-family: 'Segoe UI'; -fx-font-size: 15px;
+                           -fx-text-fill: white; -fx-padding: 0 30">
+               <graphic>
+                  <HBox spacing="10" alignment="CENTER">
+                     <Label text="✓" style="-fx-text-fill: white; -fx-font-size: 18px" />
+                     <Label text="Enregistrer les modifications" style="-fx-font-size: 15px" />
+                  </HBox>
+               </graphic>
+               <effect>
+                  <DropShadow radius="10" color="rgba(59, 130, 246, 0.4)" />
+               </effect>
+            </Button>
+         </HBox>
+
+         <!-- Note de bas de page -->
+         <HBox spacing="8" alignment="CENTER">
+            <Label text="⚠️" style="-fx-font-size: 14px; -fx-text-fill: #F59E0B" />
+            <Label text="Les modifications seront appliquées immédiatement. Vérifiez attentivement les informations avant de sauvegarder."
+                   style="-fx-text-fill: #64748B; -fx-font-size: 12px; -fx-font-style: italic" />
+         </HBox>
+      </VBox>
+   </bottom>
+</BorderPane>

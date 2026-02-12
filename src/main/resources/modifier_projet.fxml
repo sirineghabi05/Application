@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controllers.projetModifierController"
+      spacing="15" style="-fx-background-color: #F7FAFC; -fx-padding: 20;" prefHeight="650" prefWidth="700">
+
+    <!-- En-tête compact avec indication de modification -->
+    <VBox spacing="3">
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="✎ Modifier le Projet"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2D3748;"/>
+            <Label fx:id="projetIdLabel" text="ID: #0"
+                   style="-fx-font-size: 14px; -fx-background-color: #E2E8F0; -fx-padding: 4 12;
+                          -fx-background-radius: 20; -fx-text-fill: #4A5568;"/>
+        </HBox>
+        <Label text="Modifiez les informations du projet sélectionné"
+               style="-fx-font-size: 12px; -fx-text-fill: #718096;"/>
+    </VBox>
+
+    <!-- Ligne de séparation -->
+    <Separator style="-fx-background-color: #E2E8F0;"/>
+
+    <!-- ScrollPane pour le formulaire -->
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;"
+                vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
+
+        <!-- Contenu du formulaire -->
+        <VBox spacing="15" style="-fx-padding: 0 5;">
+
+            <!-- Section 1: Informations de base -->
+            <VBox spacing="10">
+                <Label text="Informations de base"
+                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #4A5568;"/>
+
+                <!-- Nom du projet -->
+                <VBox spacing="3">
+                    <HBox spacing="3" alignment="CENTER_LEFT">
+                        <Label text="Nom du projet"
+                               style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #4A5568;"/>
+                        <Label text="*" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #E53E3E;"/>
+                    </HBox>
+                    <TextField fx:id="nomProjetField"
+                               promptText="Nom du projet"
+                               style="-fx-background-color: #F8FAFC; -fx-border-color: #CBD5E0;
+                                      -fx-border-radius: 6; -fx-background-radius: 6;
+                                      -fx-padding: 8; -fx-font-size: 13px;">
+                        <tooltip>
+                            <Tooltip text="Modifiez le nom du projet (max. 100 caractères)"
+                                     style="-fx-font-size: 11px;"/>
+                        </tooltip>
+                    </TextField>
+                    <Label fx:id="nomProjetError" text=""
+                           style="-fx-font-size: 11px; -fx-text-fill: #E53E3E; -fx-padding: 1 0 0 3;"
+                           visible="false"/>
+                </VBox>
+
+                <!-- Date de création -->
+                <VBox spacing="3">
+                    <Label text="Date de création"
+                           style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #4A5568;"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <DatePicker fx:id="dateCreationPicker"
+                                    style="-fx-background-color: #F8FAFC; -fx-border-color: #CBD5E0;
+                                           -fx-border-radius: 6; -fx-background-radius: 6;
+                                           -fx-padding: 8; -fx-pref-width: 200;"/>
+                        <Button text="Aujourd'hui"
+                                style="-fx-background-color: #4A6FA5; -fx-text-fill: white;
+                                       -fx-font-weight: bold; -fx-background-radius: 6;
+                                       -fx-padding: 8 12; -fx-font-size: 12px;"
+                                onAction="#definirDateAujourdhui"/>
+                        <Button text="+7 jours"
+                                style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                                       -fx-font-weight: bold; -fx-background-radius: 6;
+                                       -fx-padding: 8 12; -fx-font-size: 12px;"
+                                onAction="#definirDatePlus7"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Section 2: Statut avec historique -->
+            <VBox spacing="10">
+                <Label text="Statut et progression"
+                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #4A5568;"/>
+
+                <GridPane hgap="15" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="180"/>
+                        <ColumnConstraints prefWidth="180"/>
+                        <ColumnConstraints prefWidth="180"/>
+                    </columnConstraints>
+
+                    <!-- Statut -->
+                    <VBox spacing="3" GridPane.columnIndex="0">
+                        <HBox spacing="3" alignment="CENTER_LEFT">
+                            <Label text="Statut"
+                                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #4A5568;"/>
+                            <Label text="*" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #E53E3E;"/>
+                        </HBox>
+                        <ComboBox fx:id="statutComboBox"
+                                  style="-fx-background-color: #F8FAFC; -fx-border-color: #CBD5E0;
+                                         -fx-border-radius: 6; -fx-background-radius: 6;
+                                         -fx-padding: 8; -fx-font-size: 13px; -fx-pref-width: 180;">
+                            <tooltip>
+                                <Tooltip text="Modifiez le statut d'avancement du projet"
+                                         style="-fx-font-size: 11px;"/>
+                            </tooltip>
+                        </ComboBox>
+                        <Label fx:id="statutError" text=""
+                               style="-fx-font-size: 11px; -fx-text-fill: #E53E3E; -fx-padding: 1 0 0 3;"
+                               visible="false"/>
+                    </VBox>
+
+                    <!-- Date de début -->
+                    <VBox spacing="3" GridPane.columnIndex="1">
+                        <Label text="Date de début"
+                               style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #4A5568;"/>
+                        <DatePicker fx:id="dateDebutPicker"
+                                    style="-fx-background-color: #F8FAFC; -fx-border-color: #CBD5E0;
+                                           -fx-border-radius: 6; -fx-background-radius: 6;
+                                           -fx-padding: 8; -fx-pref-width: 180;"/>
+                    </VBox>
+
+                    <!-- Date de fin estimée -->
+                    <VBox spacing="3" GridPane.columnIndex="2">
+                        <Label text="Date de fin estimée"
+                               style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #4A5568;"/>
+                        <DatePicker fx:id="dateFinPicker"
+                                    style="-fx-background-color: #F8FAFC; -fx-border-color: #CBD5E0;
+                                           -fx-border-radius: 6; -fx-background-radius: 6;
+                                           -fx-padding: 8; -fx-pref-width: 180;"/>
+                    </VBox>
+                </GridPane>
+            </VBox>
+
+            <!-- Section 3: Description -->
+            <VBox spacing="10">
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <Label text="Description"
+                           style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #4A5568;"/>
+                    <Label text="(Optionnel)"
+                           style="-fx-font-size: 11px; -fx-font-weight: normal; -fx-text-fill: #718096;"/>
+                </HBox>
+
+                <VBox spacing="8">
+                    <TextArea fx:id="descriptionArea"
+                              promptText="Décrivez le projet..."
+                              wrapText="true"
+                              style="-fx-background-color: #F8FAFC; -fx-border-color: #CBD5E0;
+                                     -fx-border-radius: 6; -fx-background-radius: 6;
+                                     -fx-padding: 10; -fx-font-size: 13px;"
+                              prefRowCount="6">
+                        <tooltip>
+                            <Tooltip text="Modifiez la description détaillée du projet"
+                                     style="-fx-font-size: 11px;"/>
+                        </tooltip>
+                    </TextArea>
+
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label fx:id="caracteresCountLabel" text="0/1000 caractères"
+                               style="-fx-font-size: 11px; -fx-text-fill: #718096;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="↻ Restaurer"
+                                style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                                       -fx-font-weight: bold; -fx-background-radius: 6;
+                                       -fx-padding: 6 12; -fx-font-size: 12px;"
+                                onAction="#restaurerDescriptionOriginale"/>
+                        <Button text="Générer"
+                                style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                                       -fx-font-weight: bold; -fx-background-radius: 6;
+                                       -fx-padding: 6 12; -fx-font-size: 12px;"
+                                onAction="#genererDescription"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Section 4: Métadonnées et informations système -->
+            <VBox spacing="10" style="-fx-background-color: #EDF2F7; -fx-background-radius: 8; -fx-padding: 15;">
+                <Label text="Informations système"
+                       style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #4A5568;"/>
+
+                <GridPane hgap="20" vgap="8">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="150"/>
+                        <ColumnConstraints prefWidth="250"/>
+                    </columnConstraints>
+
+                    <Label text="Date de création originale:"
+                           style="-fx-font-size: 12px; -fx-text-fill: #718096;"
+                           GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <Label fx:id="dateCreationOriginaleLabel"
+                           text="--"
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #2D3748;"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Dernière modification:"
+                           style="-fx-font-size: 12px; -fx-text-fill: #718096;"
+                           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <Label fx:id="dateModificationLabel"
+                           text="À l'instant"
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #2D3748;"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                </GridPane>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+
+    <!-- Barre d'actions avancées -->
+    <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5 0;">
+        <Button text="Historique"
+                style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                       -fx-font-weight: bold; -fx-background-radius: 6;
+                       -fx-padding: 8 16; -fx-font-size: 12px;"
+                onAction="#afficherHistorique"/>
+        <Button text="Dupliquer"
+                style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                       -fx-font-weight: bold; -fx-background-radius: 6;
+                       -fx-padding: 8 16; -fx-font-size: 12px;"
+                onAction="#dupliquerProjet"/>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <!-- Boutons d'action -->
+    <HBox spacing="10" alignment="CENTER" style="-fx-padding: 15 0 0 0;">
+
+        <!-- Boutons secondaires -->
+        <HBox spacing="8">
+            <Button text="Vérifier"
+                    style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                           -fx-font-weight: bold; -fx-background-radius: 6;
+                           -fx-padding: 8 16; -fx-font-size: 12px;"
+                    onAction="#verifierProjet"/>
+
+            <Button text="Aperçu"
+                    style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                           -fx-font-weight: bold; -fx-background-radius: 6;
+                           -fx-padding: 8 16; -fx-font-size: 12px;"
+                    onAction="#afficherApercu"/>
+        </HBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <!-- Boutons principaux -->
+        <HBox spacing="8">
+            <Button text="Annuler"
+                    style="-fx-background-color: #A0AEC0; -fx-text-fill: white;
+                           -fx-font-weight: bold; -fx-background-radius: 6;
+                           -fx-padding: 8 16; -fx-font-size: 12px;"
+                    onAction="#handleAnnuler"/>
+
+            <Button text="Réinitialiser"
+                    style="-fx-background-color: #ED8936; -fx-text-fill: white;
+                           -fx-font-weight: bold; -fx-background-radius: 6;
+                           -fx-padding: 8 16; -fx-font-size: 12px;"
+                    onAction="#reinitialiserFormulaire"/>
+
+            <Button text="Enregistrer"
+                    style="-fx-background-color: #48BB78; -fx-text-fill: white;
+                           -fx-font-weight: bold; -fx-background-radius: 6;
+                           -fx-padding: 8 24; -fx-font-size: 12px;"
+                    onAction="#modifierProjet"/>
+        </HBox>
+    </HBox>
+
+    <!-- Barre d'état -->
+    <HBox spacing="15" alignment="CENTER" style="-fx-padding: 10 0 0 0; -fx-border-color: #E2E8F0; -fx-border-width: 1 0 0 0;">
+        <HBox spacing="5" alignment="CENTER">
+            <Label text="Mode:" style="-fx-font-size: 11px; -fx-text-fill: #718096;"/>
+            <Label fx:id="modeEditionLabel" text="Édition"
+                   style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #4A6FA5;"/>
+        </HBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <HBox spacing="5" alignment="CENTER">
+            <Label text="Modifications:" style="-fx-font-size: 11px; -fx-text-fill: #718096;"/>
+            <Label fx:id="modificationsLabel" text="Non enregistrées"
+                   style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #ED8936;"/>
+        </HBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Label text="* Champs obligatoires"
+               style="-fx-font-size: 10px; -fx-text-fill: #A0AEC0;"/>
+    </HBox>
+
+    <padding>
+        <Insets top="15" right="25" bottom="15" left="25"/>
+    </padding>
+</VBox>

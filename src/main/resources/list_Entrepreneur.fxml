@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controllers.entrepreneurLIistController"
+      spacing="20" style="-fx-background-color: #F7FAFC; -fx-padding: 30;">
+
+    <!-- En-tête avec titre -->
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <VBox>
+            <Label text="Gestion des Entrepreneurs"
+                   style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2D3748;"/>
+            <Label text="Gérez votre liste d'entrepreneurs de manière efficace"
+                   style="-fx-font-size: 14px; -fx-text-fill: #718096; -fx-padding: 5 0 0 0;"/>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <!-- Bouton Ajouter -->
+        <Button text="+ Ajouter un entrepreneur"
+                style="-fx-background-color: #4A6FA5; -fx-text-fill: white; -fx-font-weight: bold;
+                       -fx-background-radius: 8; -fx-padding: 12 24; -fx-font-size: 14px;"
+                onAction="#handleAddNew"/>
+    </HBox>
+
+    <!-- Ligne de séparation -->
+    <Separator style="-fx-background-color: #E2E8F0;"/>
+
+    <!-- Barre de recherche et statistiques -->
+    <HBox spacing="30" alignment="CENTER_LEFT">
+        <!-- Barre de recherche -->
+        <VBox spacing="5">
+            <TextField fx:id="searchField"
+                       style="-fx-background-color: #F8FAFC; -fx-border-color: #CBD5E0;
+                              -fx-border-radius: 8; -fx-background-radius: 8;
+                              -fx-padding: 10 15; -fx-font-size: 14px; -fx-pref-width: 300px;"
+                       promptText="Rechercher un entrepreneur..."/>
+            <HBox spacing="10">
+                <Button text="Effacer"
+                        style="-fx-background-color: #CBD5E0; -fx-text-fill: #4A5568;
+                               -fx-background-radius: 6; -fx-padding: 5 10;"
+                        onAction="#handleClearSearch"/>
+                <Button text="Rafraîchir"
+                        style="-fx-background-color: #48BB78; -fx-text-fill: white;
+                               -fx-background-radius: 6; -fx-padding: 5 10;"
+                        onAction="#handleRefresh"/>
+            </HBox>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <!-- Statistiques -->
+        <HBox spacing="40">
+            <VBox alignment="CENTER" spacing="5">
+                <Label text="Total d'entrepreneurs"
+                       style="-fx-font-size: 12px; -fx-text-fill: #718096;"/>
+                <Label fx:id="totalEntrepreneursLabel" text="0"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2D3748;"/>
+            </VBox>
+
+            <VBox alignment="CENTER" spacing="5">
+                <Label text="Recherche active"
+                       style="-fx-font-size: 12px; -fx-text-fill: #718096;"/>
+                <Label fx:id="activeSearchLabel" text="0"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2D3748;"/>
+            </VBox>
+
+            <VBox alignment="CENTER" spacing="5">
+                <Label text="Dernière inscription"
+                       style="-fx-font-size: 12px; -fx-text-fill: #718096;"/>
+                <Label fx:id="lastRegistrationLabel" text="N/A"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2D3748;"/>
+            </VBox>
+        </HBox>
+    </HBox>
+
+    <!-- Liste des entrepreneurs -->
+    <VBox spacing="20" VBox.vgrow="ALWAYS">
+        <Label text="Liste des Entrepreneurs"
+               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #4A5568;"/>
+
+        <ScrollPane fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-border-color: transparent;"
+                    vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
+            <ListView fx:id="entrepreneurListView"
+                      style="-fx-background-color: transparent;"
+                      VBox.vgrow="ALWAYS"/>
+        </ScrollPane>
+
+        <!-- Pied de page -->
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="Exporter la liste"
+                    style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                           -fx-background-radius: 6; -fx-padding: 8 16;"
+                    onAction="#handleExport"/>
+            <Label text="© 2024 Gestion Entrepreneurs"
+                   style="-fx-font-size: 12px; -fx-text-fill: #A0AEC0;"/>
+        </HBox>
+    </VBox>
+
+    <padding>
+        <Insets top="20" right="30" bottom="20" left="30"/>
+    </padding>
+</VBox>
