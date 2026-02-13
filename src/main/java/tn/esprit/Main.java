@@ -19,11 +19,11 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Chargement du fichier FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/list_Entrepreneur.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/list_Projet.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Gestion des Projets - InnoStart");
-        stage.setScene(scene);
+         stage.setScene(scene);
         stage.show();
     }
     public static void main(String[] args) {

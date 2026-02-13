@@ -212,12 +212,12 @@
     <!-- Barre d'actions avancées -->
     <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5 0;">
         <Button text="Historique"
-                style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                style="-fx-background-color: #F1F5F9; -fx-text-fill: #475569;
                        -fx-font-weight: bold; -fx-background-radius: 6;
                        -fx-padding: 8 16; -fx-font-size: 12px;"
                 onAction="#afficherHistorique"/>
         <Button text="Dupliquer"
-                style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                style="-fx-background-color: #F1F5F9; -fx-text-fill: #475569;
                        -fx-font-weight: bold; -fx-background-radius: 6;
                        -fx-padding: 8 16; -fx-font-size: 12px;"
                 onAction="#dupliquerProjet"/>
@@ -230,13 +230,13 @@
         <!-- Boutons secondaires -->
         <HBox spacing="8">
             <Button text="Vérifier"
-                    style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                    style="-fx-background-color: #F1F5F9; -fx-text-fill: #475569;
                            -fx-font-weight: bold; -fx-background-radius: 6;
                            -fx-padding: 8 16; -fx-font-size: 12px;"
                     onAction="#verifierProjet"/>
 
             <Button text="Aperçu"
-                    style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
+                    style="-fx-background-color: #F1F5F9; -fx-text-fill: #475569;
                            -fx-font-weight: bold; -fx-background-radius: 6;
                            -fx-padding: 8 16; -fx-font-size: 12px;"
                     onAction="#afficherApercu"/>
@@ -247,19 +247,19 @@
         <!-- Boutons principaux -->
         <HBox spacing="8">
             <Button text="Annuler"
-                    style="-fx-background-color: #A0AEC0; -fx-text-fill: white;
-                           -fx-font-weight: bold; -fx-background-radius: 6;
+                    style="-fx-background-color: transparent; -fx-border-color: #CBD5E0; -fx-border-width: 2;
+                           -fx-text-fill: #64748B; -fx-font-weight: bold; -fx-background-radius: 6;
                            -fx-padding: 8 16; -fx-font-size: 12px;"
                     onAction="#handleAnnuler"/>
 
             <Button text="Réinitialiser"
-                    style="-fx-background-color: #ED8936; -fx-text-fill: white;
+                    style="-fx-background-color: #F1F5F9; -fx-text-fill: #475569;
                            -fx-font-weight: bold; -fx-background-radius: 6;
                            -fx-padding: 8 16; -fx-font-size: 12px;"
                     onAction="#reinitialiserFormulaire"/>
 
             <Button text="Enregistrer"
-                    style="-fx-background-color: #48BB78; -fx-text-fill: white;
+                    style="-fx-background-color: #4A6FA5; -fx-text-fill: white;
                            -fx-font-weight: bold; -fx-background-radius: 6;
                            -fx-padding: 8 24; -fx-font-size: 12px;"
                     onAction="#modifierProjet"/>
@@ -269,7 +269,7 @@
     <!-- Barre d'état -->
     <HBox spacing="15" alignment="CENTER" style="-fx-padding: 10 0 0 0; -fx-border-color: #E2E8F0; -fx-border-width: 1 0 0 0;">
         <HBox spacing="5" alignment="CENTER">
-            <Label text="Mode:" style="-fx-font-size: 11px; -fx-text-fill: #718096;"/>
+            <Label text="Mode:" style="-fx-font-size: 11px; -fx-text-fill: #64748B;"/>
             <Label fx:id="modeEditionLabel" text="Édition"
                    style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #4A6FA5;"/>
         </HBox>
@@ -277,15 +277,15 @@
         <Region HBox.hgrow="ALWAYS"/>
 
         <HBox spacing="5" alignment="CENTER">
-            <Label text="Modifications:" style="-fx-font-size: 11px; -fx-text-fill: #718096;"/>
+            <Label text="Modifications:" style="-fx-font-size: 11px; -fx-text-fill: #64748B;"/>
             <Label fx:id="modificationsLabel" text="Non enregistrées"
-                   style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #ED8936;"/>
+                   style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #DC2626;"/>
         </HBox>
 
         <Region HBox.hgrow="ALWAYS"/>
 
         <Label text="* Champs obligatoires"
-               style="-fx-font-size: 10px; -fx-text-fill: #A0AEC0;"/>
+               style="-fx-font-size: 10px; -fx-text-fill: #CBD5E0;"/>
     </HBox>
 
     <padding>

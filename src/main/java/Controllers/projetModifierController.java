@@ -8,41 +8,26 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
-import java.sql.SQLDataException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class projetModifierController {
 
-    @FXML
-    private Label projetIdLabel;
-    @FXML
-    private TextField nomProjetField;
-    @FXML
-    private DatePicker dateCreationPicker;
-    @FXML
-    private ComboBox<String> statutComboBox;
-    @FXML
-    private DatePicker dateDebutPicker;
-    @FXML
-    private DatePicker dateFinPicker;
-    @FXML
-    private TextArea descriptionArea;
-    @FXML
-    private Label caracteresCountLabel;
-    @FXML
-    private Label nomProjetError;
-    @FXML
-    private Label statutError;
-    @FXML
-    private Label dateCreationOriginaleLabel;
-    @FXML
-    private Label dateModificationLabel;
-    @FXML
-    private Label modeEditionLabel;
-    @FXML
-    private Label modificationsLabel;
+    @FXML private Label projetIdLabel;
+    @FXML private TextField nomProjetField;
+    @FXML private DatePicker dateCreationPicker;
+    @FXML private ComboBox<String> statutComboBox;
+    @FXML private DatePicker dateDebutPicker;
+    @FXML private DatePicker dateFinPicker;
+    @FXML private TextArea descriptionArea;
+    @FXML private Label caracteresCountLabel;
+    @FXML private Label nomProjetError;
+    @FXML private Label statutError;
+    @FXML private Label dateCreationOriginaleLabel;
+    @FXML private Label dateModificationLabel;
+    @FXML private Label modeEditionLabel;
+    @FXML private Label modificationsLabel;
 
     private Projet projetActuel;
     private String descriptionOriginale;
@@ -82,11 +67,17 @@ public class projetModifierController {
         dateFinPicker.valueProperty().addListener((obs, old, nw) -> marquerModification());
     }
 
-    public void setProjet(Projet projet) {
+    /**
+     * Initialise les données du projet depuis la liste
+     */
+    public void initData(Projet projet) {
         this.projetActuel = projet;
         chargerDonneesProjet();
     }
 
+    /**
+     * Charge les données du projet dans les champs du formulaire
+     */
     private void chargerDonneesProjet() {
         if (projetActuel != null) {
             // ID du projet
@@ -131,25 +122,29 @@ public class projetModifierController {
         }
     }
 
+    // ============ MÉTHODES DE MODIFICATION DE DATE ============
+
     @FXML
-    private void definirDateAujourdhui(ActionEvent event) {
+    private void definirDateAujourdhui() {
         dateCreationPicker.setValue(LocalDate.now());
     }
 
     @FXML
-    private void definirDatePlus7(ActionEvent event) {
+    private void definirDatePlus7() {
         dateCreationPicker.setValue(LocalDate.now().plusDays(7));
     }
 
+    // ============ MÉTHODES DE GESTION DE LA DESCRIPTION ============
+
     @FXML
-    private void restaurerDescriptionOriginale(ActionEvent event) {
+    private void restaurerDescriptionOriginale() {
         if (descriptionOriginale != null) {
             descriptionArea.setText(descriptionOriginale);
         }
     }
 
     @FXML
-    private void genererDescription(ActionEvent event) {
+    private void genererDescription() {
         String nomProjet = nomProjetField.getText();
         if (nomProjet != null && !nomProjet.isEmpty()) {
             String modeleDescription = "Projet " + nomProjet + " - Objectifs :\n\n" +
@@ -160,18 +155,19 @@ public class projetModifierController {
         }
     }
 
+    // ============ MÉTHODES DE VISUALISATION ============
+
     @FXML
-    private void afficherHistorique(ActionEvent event) {
+    private void afficherHistorique() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Historique du projet");
-        alert.setHeaderText("Modifications précédentes");
+        alert.setHeaderText("📜 Modifications précédentes");
         alert.setContentText("Fonctionnalité d'historique à implémenter.");
         alert.showAndWait();
     }
 
     @FXML
-    private void dupliquerProjet(ActionEvent event) {
-        // Logique pour dupliquer le projet
+    private void dupliquerProjet() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Dupliquer le projet");
         alert.setHeaderText("Créer une copie du projet ?");
@@ -189,7 +185,7 @@ public class projetModifierController {
                 projetService.ajouter(nouveauProjet);
                 Alert success = new Alert(Alert.AlertType.INFORMATION);
                 success.setTitle("Succès");
-                success.setHeaderText("Projet dupliqué");
+                success.setHeaderText("📋 Projet dupliqué");
                 success.setContentText("Une copie du projet a été créée avec succès.");
                 success.showAndWait();
             }
@@ -197,19 +193,7 @@ public class projetModifierController {
     }
 
     @FXML
-    private void verifierProjet(ActionEvent event) {
-        boolean isValid = validateInputs();
-        if (isValid) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Vérification réussie");
-            alert.setHeaderText(null);
-            alert.setContentText("Toutes les informations sont valides.");
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    private void afficherApercu(ActionEvent event) {
+    private void afficherApercu() {
         String apercu = "=== APERÇU DU PROJET ===\n\n" +
                 "ID: " + projetActuel.getId_projet() + "\n" +
                 "Nom: " + nomProjetField.getText() + "\n" +
@@ -219,7 +203,7 @@ public class projetModifierController {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Aperçu du projet");
-        alert.setHeaderText("Détails du projet");
+        alert.setHeaderText("👁️ Détails du projet");
 
         TextArea textArea = new TextArea(apercu);
         textArea.setEditable(false);
@@ -230,53 +214,18 @@ public class projetModifierController {
         alert.showAndWait();
     }
 
-    @FXML
-    private void reinitialiserFormulaire(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Réinitialisation");
-        alert.setHeaderText("Réinitialiser le formulaire");
-        alert.setContentText("Voulez-vous annuler toutes vos modifications ?");
-
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                chargerDonneesProjet();
-            }
-        });
-    }
+    // ============ MÉTHODES DE VALIDATION ET VÉRIFICATION ============
 
     @FXML
-    private void modifierProjet(ActionEvent event) {
-        if (!validateInputs()) {
-            return;
+    private void verifierProjet() {
+        boolean isValid = validateInputs();
+        if (isValid) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Vérification réussie");
+            alert.setHeaderText("✔️ Vérification du projet");
+            alert.setContentText("Toutes les informations sont valides.");
+            alert.showAndWait();
         }
-
-        // Mise à jour des données du projet
-        projetActuel.setNom_projet(nomProjetField.getText().trim());
-
-        if (dateCreationPicker.getValue() != null) {
-            projetActuel.setDate_creation(dateCreationPicker.getValue().atStartOfDay());
-        }
-
-        projetActuel.setStatut(statutComboBox.getValue());
-        projetActuel.setDescription(descriptionArea.getText().trim());
-
-        // Appel au service pour modifier
-        projetService.modifier(projetActuel);
-
-        // Confirmation
-        Alert success = new Alert(Alert.AlertType.INFORMATION);
-        success.setTitle("Succès");
-        success.setHeaderText("Projet modifié");
-        success.setContentText("Le projet '" + projetActuel.getNom_projet() + "' a été modifié avec succès !");
-        success.showAndWait();
-
-        modificationsEffectuees = false;
-        modificationsLabel.setText("Enregistrées");
-        modificationsLabel.setStyle("-fx-text-fill: #48BB78;");
-        dateModificationLabel.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
-
-        fermerFenetre();
-
     }
 
     private boolean validateInputs() {
@@ -310,16 +259,63 @@ public class projetModifierController {
             statutComboBox.setStyle("-fx-border-color: #CBD5E0;");
         }
 
-        // Validation de la date
-        if (dateCreationPicker.getValue() == null) {
-            // Optionnel: ajouter validation date si nécessaire
-        }
-
         return isValid;
     }
 
+    // ============ MÉTHODES DE MODIFICATION ET ENREGISTREMENT ============
+
     @FXML
-    private void handleAnnuler(ActionEvent event) {
+    private void modifierProjet() {
+        if (!validateInputs()) {
+            return;
+        }
+
+        // Mise à jour des données du projet
+        projetActuel.setNom_projet(nomProjetField.getText().trim());
+
+        if (dateCreationPicker.getValue() != null) {
+            projetActuel.setDate_creation(dateCreationPicker.getValue().atStartOfDay());
+        }
+
+        projetActuel.setStatut(statutComboBox.getValue());
+        projetActuel.setDescription(descriptionArea.getText().trim());
+
+        // Appel au service pour modifier
+        projetService.modifier(projetActuel);
+
+        // Confirmation
+        Alert success = new Alert(Alert.AlertType.INFORMATION);
+        success.setTitle("Succès");
+        success.setHeaderText("✅ Projet modifié");
+        success.setContentText("Le projet '" + projetActuel.getNom_projet() + "' a été modifié avec succès !");
+        success.showAndWait();
+
+        modificationsEffectuees = false;
+        modificationsLabel.setText("Enregistrées");
+        modificationsLabel.setStyle("-fx-text-fill: #48BB78;");
+        dateModificationLabel.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+
+        fermerFenetre();
+    }
+
+    @FXML
+    private void reinitialiserFormulaire() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Réinitialisation");
+        alert.setHeaderText("Réinitialiser le formulaire");
+        alert.setContentText("Voulez-vous annuler toutes vos modifications ?");
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                chargerDonneesProjet();
+            }
+        });
+    }
+
+    // ============ MÉTHODES DE NAVIGATION ============
+
+    @FXML
+    private void handleAnnuler() {
         if (modificationsEffectuees) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");

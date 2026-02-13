@@ -58,9 +58,9 @@
 
    <!-- CENTER : Formulaire de modification -->
    <center>
-      <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 5"
-                  hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
-         <VBox spacing="25" style="-fx-padding: 10">
+      <ScrollPane fitToWidth="false" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 5"
+                  hbarPolicy="AS_NEEDED" vbarPolicy="ALWAYS">
+         <VBox spacing="25" style="-fx-padding: 10;" minWidth="1000">
             <!-- Carte principale -->
             <VBox spacing="25" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 35;
                                       -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 20, 0, 0, 6)">
@@ -82,13 +82,14 @@
                </HBox>
 
                <!-- Formulaire en grille -->
-               <GridPane hgap="20" vgap="20">
-                  <columnConstraints>
-                     <ColumnConstraints halignment="RIGHT" minWidth="150" prefWidth="180" />
-                     <ColumnConstraints hgrow="ALWAYS" minWidth="300" />
-                     <ColumnConstraints minWidth="150" prefWidth="180" />
-                     <ColumnConstraints hgrow="ALWAYS" minWidth="300" />
-                  </columnConstraints>
+               <HBox style="-fx-background-color: transparent;">
+                  <GridPane hgap="20" vgap="20" style="-fx-background-color: transparent;" minWidth="900">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" minWidth="150" prefWidth="180" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="300" />
+                        <ColumnConstraints minWidth="150" prefWidth="180" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="300" />
+                     </columnConstraints>
 
                   <!-- Ligne 1 : Nom et Prénom -->
                   <Label text="Nom *"
@@ -151,17 +152,19 @@
                      <Button text="Générer"
                              style="-fx-background-color: #F1F5F9; -fx-text-fill: #475569;
                                     -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-weight: 600;
-                                    -fx-cursor: hand; -fx-font-size: 13px">
+                                    -fx-cursor: hand; -fx-font-size: 13px"
+                             onAction="#genererMotDePasse">
                         <effect>
                            <DropShadow radius="3" color="rgba(0,0,0,0.1)" />
                         </effect>
                      </Button>
                      <Button text="Voir"
-                             style="-fx-background-color: #EFF6FF; -fx-text-fill: #3B82F6;
+                             style="-fx-background-color: #553399; -fx-text-fill: white;
                                     -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-weight: 600;
-                                    -fx-cursor: hand; -fx-font-size: 13px">
+                                    -fx-cursor: hand; -fx-font-size: 13px"
+                             onAction="#afficherMotDePasse">
                         <effect>
-                           <DropShadow radius="3" color="rgba(59, 130, 246, 0.2)" />
+                           <DropShadow radius="3" color="rgba(124, 58, 237, 0.2)" />
                         </effect>
                      </Button>
                   </HBox>
@@ -177,17 +180,19 @@
                                        -fx-background-color: #F8FAFC; -fx-pref-width: 200"
                                 HBox.hgrow="ALWAYS" />
                      <Button text="Aujourd'hui"
-                             style="-fx-background-color: #F0F9FF; -fx-text-fill: #0369A1;
+                             style="-fx-background-color: #553399; -fx-text-fill: white;
                                     -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-weight: 600;
-                                    -fx-cursor: hand; -fx-font-size: 13px">
+                                    -fx-cursor: hand; -fx-font-size: 13px"
+                             onAction="#definirDateAujourdhui">
                         <effect>
-                           <DropShadow radius="3" color="rgba(3, 105, 161, 0.2)" />
+                           <DropShadow radius="3" color="rgba(124, 58, 237, 0.2)" />
                         </effect>
                      </Button>
                      <Button text="Réinitialiser"
                              style="-fx-background-color: #FEF2F2; -fx-text-fill: #DC2626;
                                     -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-weight: 600;
-                                    -fx-cursor: hand; -fx-font-size: 13px">
+                                    -fx-cursor: hand; -fx-font-size: 13px"
+                             onAction="#reinitialiserDate">
                         <effect>
                            <DropShadow radius="3" color="rgba(220, 38, 38, 0.2)" />
                         </effect>
@@ -203,6 +208,7 @@
                      <RowConstraints prefHeight="70" />
                   </rowConstraints>
                </GridPane>
+               </HBox>
 
                <!-- Section informations avancées -->
                <VBox spacing="15" style="-fx-background-color: #F8FAFC; -fx-background-radius: 12; -fx-padding: 20">
@@ -309,7 +315,7 @@
             <!-- Bouton Sauvegarder -->
             <Button mnemonicParsing="false" onAction="#modifierEntrepreneur"
                     prefHeight="50" minWidth="200"
-                    style="-fx-background-color: #3B82F6;
+                    style="-fx-background-color: #4A6FA5;
                            -fx-background-radius: 12; -fx-border-radius: 12;
                            -fx-cursor: hand; -fx-font-weight: 700;
                            -fx-font-family: 'Segoe UI'; -fx-font-size: 15px;
@@ -321,7 +327,7 @@
                   </HBox>
                </graphic>
                <effect>
-                  <DropShadow radius="10" color="rgba(59, 130, 246, 0.4)" />
+                  <DropShadow radius="10" color="rgba(74, 111, 165, 0.4)" />
                </effect>
             </Button>
          </HBox>

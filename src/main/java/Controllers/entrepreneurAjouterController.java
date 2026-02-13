@@ -17,7 +17,7 @@ public class entrepreneurAjouterController {
 
     // Déclarez les champs en utilisant EXACTEMENT les mêmes fx:id que dans le FXML
     @FXML private TextField nom;
-    @FXML private TextField Prénom;
+    @FXML private TextField prenom;
     @FXML private TextField Email;
     @FXML private TextField télephone;
     @FXML private TextField Adresse;
@@ -44,7 +44,7 @@ public class entrepreneurAjouterController {
      */
     private void configurerStylesChamps() {
         // Ajoute des effets de focus aux champs
-        TextField[] tousChamps = {nom, Prénom, Email, télephone, Adresse, Dateinscriotion};
+        TextField[] tousChamps = {nom, prenom, Email, télephone, Adresse, Dateinscriotion};
 
         for (TextField champ : tousChamps) {
             champ.focusedProperty().addListener((obs, oldVal, newVal) -> {
@@ -116,12 +116,12 @@ public class entrepreneurAjouterController {
         }
 
         // Validation du prénom
-        if (Prénom.getText() == null || Prénom.getText().trim().isEmpty()) {
+        if (prenom.getText() == null || prenom.getText().trim().isEmpty()) {
             erreurs.append("• Le prénom est obligatoire\n");
-            afficherMessageErreurChamp("Le prénom est obligatoire", Prénom);
+            afficherMessageErreurChamp("Le prénom est obligatoire", prenom);
             validationReussie = false;
         } else {
-            highlightChamp(Prénom, false);
+            highlightChamp(prenom, false);
         }
 
         // Validation de l'email
@@ -168,15 +168,20 @@ public class entrepreneurAjouterController {
             highlightChamp(télephone, false);
         }
 
-        // Validation de la date (optionnel mais format)
+        // Validation de la date (optionnel mais format doit être AAAA-MM-JJ sans heure)
         String dateText = Dateinscriotion.getText();
         if (dateText != null && !dateText.trim().isEmpty()) {
             try {
-                LocalDate.parse(dateText, DATE_FORMATTER);
+                LocalDate date = LocalDate.parse(dateText, DATE_FORMATTER);
+                // Vérifier que la date n'a pas d'heure
+                String dateFormatee = date.format(DATE_FORMATTER);
+                if (!dateText.equals(dateFormatee)) {
+                    Dateinscriotion.setText(dateFormatee);
+                }
                 highlightChamp(Dateinscriotion, false);
             } catch (DateTimeParseException e) {
-                erreurs.append("• Format de date invalide (AAAA-MM-JJ)\n");
-                afficherMessageErreurChamp("Format de date invalide", Dateinscriotion);
+                erreurs.append("• Format de date invalide (AAAA-MM-JJ, sans heure)\n");
+                afficherMessageErreurChamp("Format de date invalide (AAAA-MM-JJ)", Dateinscriotion);
                 validationReussie = false;
             }
         }
@@ -225,7 +230,7 @@ public class entrepreneurAjouterController {
 
         return new Entrepreneur(
                 nom.getText().trim(),
-                Prénom.getText().trim(),
+                prenom.getText().trim(),
                 Email.getText().trim(),
                 MDP.getText(),
                 télephone.getText().trim(),
@@ -264,7 +269,7 @@ public class entrepreneurAjouterController {
                 "Êtes-vous sûr de vouloir ajouter cet entrepreneur ?\n\n" +
                         "Détails :\n" +
                         "• Nom : " + nom.getText().trim() + "\n" +
-                        "• Prénom : " + Prénom.getText().trim() + "\n" +
+                        "• Prénom : " + prenom.getText().trim() + "\n" +
                         "• Email : " + Email.getText().trim() + "\n\n" +
                         "Cette action est irréversible."
         );
@@ -310,7 +315,7 @@ public class entrepreneurAjouterController {
      */
     private boolean champsRemplis() {
         return !nom.getText().trim().isEmpty() ||
-                !Prénom.getText().trim().isEmpty() ||
+                !prenom.getText().trim().isEmpty() ||
                 !Email.getText().trim().isEmpty() ||
                 !MDP.getText().isEmpty() ||
                 !télephone.getText().trim().isEmpty() ||
@@ -322,7 +327,7 @@ public class entrepreneurAjouterController {
      */
     private void nettoyerChamps() {
         nom.clear();
-        Prénom.clear();
+        prenom.clear();
         Email.clear();
         télephone.clear();
         Adresse.clear();
@@ -331,7 +336,7 @@ public class entrepreneurAjouterController {
         Dateinscriotion.setText(LocalDate.now().format(DATE_FORMATTER));
 
         // Retirer les highlights d'erreur
-        TextField[] tousChamps = {nom, Prénom, Email, télephone, Adresse, Dateinscriotion};
+        TextField[] tousChamps = {nom, prenom, Email, télephone, Adresse, Dateinscriotion};
         for (TextField champ : tousChamps) {
             highlightChamp(champ, false);
         }
@@ -431,98 +436,6 @@ public class entrepreneurAjouterController {
                 "Date définie",
                 "La date d'aujourd'hui a été appliquée : " + LocalDate.now().format(DATE_FORMATTER)
         );
-    }
-
-    /**
-     * Méthode utilitaire pour générer un mot de passe sécurisé
-     */
-    @FXML
-    private void genererMotDePasse() {
-        String motDePasseGenere = genererMotDePasseSecurise();
-        MDP.setText(motDePasseGenere);
-        highlightChamp(MDP, false);
-
-        Alert alerteMdp = new Alert(AlertType.INFORMATION);
-        alerteMdp.setTitle("Mot de passe généré");
-        alerteMdp.setHeaderText("🔐 Mot de passe sécurisé généré");
-        alerteMdp.setContentText(
-                "Un mot de passe sécurisé a été généré :\n\n" +
-                        motDePasseGenere + "\n\n" +
-                        "Conseils de sécurité :\n" +
-                        "• Ne partagez jamais votre mot de passe\n" +
-                        "• Changez-le régulièrement\n" +
-                        "• Utilisez un gestionnaire de mots de passe\n\n" +
-                        "Copiez ce mot de passe dans un endroit sécurisé."
-        );
-        alerteMdp.getDialogPane().setStyle("-fx-background-color: #F0F9FF;");
-        alerteMdp.showAndWait();
-    }
-
-    /**
-     * Génère un mot de passe sécurisé
-     */
-    private String genererMotDePasseSecurise() {
-        String majuscules = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String minuscules = "abcdefghijklmnopqrstuvwxyz";
-        String chiffres = "0123456789";
-        String caracteresSpeciaux = "!@#$%&*";
-
-        StringBuilder motDePasse = new StringBuilder();
-
-        // Au moins une majuscule
-        motDePasse.append(majuscules.charAt((int)(Math.random() * majuscules.length())));
-        // Au moins une minuscule
-        motDePasse.append(minuscules.charAt((int)(Math.random() * minuscules.length())));
-        // Au moins un chiffre
-        motDePasse.append(chiffres.charAt((int)(Math.random() * chiffres.length())));
-        // Au moins un caractère spécial
-        motDePasse.append(caracteresSpeciaux.charAt((int)(Math.random() * caracteresSpeciaux.length())));
-
-        // Ajouter 4 caractères aléatoires
-        String tousCaracteres = majuscules + minuscules + chiffres + caracteresSpeciaux;
-        for (int i = 0; i < 4; i++) {
-            motDePasse.append(tousCaracteres.charAt((int)(Math.random() * tousCaracteres.length())));
-        }
-
-        // Mélanger le mot de passe
-        return melangerChaine(motDePasse.toString());
-    }
-
-    /**
-     * Mélange les caractères d'une chaîne
-     */
-    private String melangerChaine(String chaine) {
-        char[] caracteres = chaine.toCharArray();
-        for (int i = caracteres.length - 1; i > 0; i--) {
-            int j = (int)(Math.random() * (i + 1));
-            char temp = caracteres[i];
-            caracteres[i] = caracteres[j];
-            caracteres[j] = temp;
-        }
-        return new String(caracteres);
-    }
-
-    /**
-     * Affiche une alerte d'aide pour l'utilisateur
-     */
-    @FXML
-    private void afficherAide() {
-        Alert aide = new Alert(AlertType.INFORMATION);
-        aide.setTitle("Aide - Ajout d'entrepreneur");
-        aide.setHeaderText("📋 Guide d'utilisation");
-        aide.setContentText(
-                "Instructions pour ajouter un entrepreneur :\n\n" +
-                        "1. Remplissez tous les champs obligatoires (*)\n" +
-                        "2. Vérifiez le format des emails et téléphones\n" +
-                        "3. Utilisez un mot de passe sécurisé\n" +
-                        "4. La date par défaut est celle d'aujourd'hui\n\n" +
-                        "Astuces :\n" +
-                        "• Cliquez sur 'Générer MDP' pour un mot de passe sécurisé\n" +
-                        "• Cliquez sur 'Aujourd'hui' pour la date actuelle\n" +
-                        "• Après ajout, vous pourrez modifier l'entrepreneur"
-        );
-        aide.getDialogPane().setStyle("-fx-background-color: #F8FAFC;");
-        aide.showAndWait();
     }
 
     // ============ MÉTHODES D'ALERTES AMÉLIORÉES ============
@@ -681,5 +594,83 @@ public class entrepreneurAjouterController {
         );
         alerte.getDialogPane().setStyle("-fx-background-color: #FEF2F2;");
         alerte.showAndWait();
+    }
+
+    // ============ MÉTHODES DE VALIDATION APPELÉES PAR LE FXML ============
+
+    @FXML
+    private void validerPrenom() {
+        String prenomText = prenom.getText().trim();
+        if (prenomText.isEmpty()) {
+            afficherMessageErreurChamp("Le prénom est obligatoire", prenom);
+        } else if (prenomText.length() < 2) {
+            afficherMessageErreurChamp("Le prénom doit avoir au moins 2 caractères", prenom);
+        } else if (!prenomText.matches("^[a-zA-ZÀ-ÿ\\s'-]+$")) {
+            afficherMessageErreurChamp("Le prénom ne doit contenir que des lettres", prenom);
+        } else {
+            highlightChamp(prenom, false);
+        }
+    }
+
+    @FXML
+    private void validerEmail() {
+        String emailText = Email.getText().trim();
+        if (emailText.isEmpty()) {
+            afficherMessageErreurChamp("L'email est obligatoire", Email);
+        } else if (!estEmailValide(emailText)) {
+            afficherMessageErreurChamp("Format d'email invalide", Email);
+        } else {
+            highlightChamp(Email, false);
+        }
+    }
+
+    @FXML
+    private void validerTelephone() {
+        String telText = télephone.getText().trim();
+        if (!telText.isEmpty() && !estTelephoneValide(telText)) {
+            afficherMessageErreurChamp("Format de téléphone invalide", télephone);
+        } else {
+            highlightChamp(télephone, false);
+        }
+    }
+
+    @FXML
+    private void validerMotDePasse() {
+        String mdpText = MDP.getText();
+        if (mdpText.isEmpty()) {
+            afficherMessageErreurChamp("Le mot de passe est obligatoire", MDP);
+        } else if (mdpText.length() < 8) {
+            afficherMessageErreurChamp("Min 8 caractères", MDP);
+        } else if (!contientCaractereSpecial(mdpText)) {
+            afficherMessageErreurChamp("Besoin caractère spécial", MDP);
+        } else {
+            highlightChamp(MDP, false);
+        }
+    }
+
+    @FXML
+    private void mettreAJourStatut() {
+        // Méthode appelée par le FXML - peut être implémentée
+    }
+
+    private void afficherErreur(javafx.scene.control.Label label, String message) {
+        if (label != null) {
+            label.setText(message);
+            label.setVisible(!message.isEmpty());
+        }
+    }
+
+    private void afficherAvertissement(javafx.scene.control.Label label, String message) {
+        if (label != null) {
+            label.setText(message);
+            label.setVisible(!message.isEmpty());
+        }
+    }
+
+    private void effacerErreur(javafx.scene.control.Label label) {
+        if (label != null) {
+            label.setText("");
+            label.setVisible(false);
+        }
     }
 }

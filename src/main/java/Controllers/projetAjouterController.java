@@ -25,6 +25,7 @@ public class projetAjouterController {
     @FXML private Label caracteresCountLabel;
     @FXML private Label formStatusLabel;
     @FXML private Label validationStatusLabel;
+    @FXML private ProgressBar descriptionProgressBar;
 
     private final Projetservice service = new Projetservice();
     private int erreurCount = 0;
@@ -44,12 +45,22 @@ public class projetAjouterController {
             int count = newVal.length();
             caracteresCountLabel.setText(count + "/2000 caractères");
 
+            // Mise à jour de la barre de progression
+            double progress = Math.min((double) count / 2000.0, 1.0);
+            descriptionProgressBar.setProgress(progress);
+
             if (count > 2000) {
                 caracteresCountLabel.setStyle("-fx-text-fill: #E53E3E;");
+                descriptionProgressBar.setStyle("-fx-accent: #E53E3E;");
             } else if (count > 1500) {
                 caracteresCountLabel.setStyle("-fx-text-fill: #F59E0B;");
-            } else {
+                descriptionProgressBar.setStyle("-fx-accent: #F59E0B;");
+            } else if (count >= 300) {
                 caracteresCountLabel.setStyle("-fx-text-fill: #48BB78;");
+                descriptionProgressBar.setStyle("-fx-accent: #48BB78;");
+            } else {
+                caracteresCountLabel.setStyle("-fx-text-fill: #718096;");
+                descriptionProgressBar.setStyle("-fx-accent: #4A90E2;");
             }
 
             validerDescription();

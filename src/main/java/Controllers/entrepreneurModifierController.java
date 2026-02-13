@@ -119,7 +119,13 @@ public class entrepreneurModifierController {
         emailField.setText(entrepreneur.getEmail());
         telephoneField.setText(entrepreneur.getTelephone());
         adresseField.setText(entrepreneur.getAdresse());
-        dateField.setText(entrepreneur.getDateInscription());
+
+        // Remplir le mot de passe avec la valeur existante
+        mdpField.setText(entrepreneur.getMotDePasse());
+
+        // Formater la date sans heure (AAAA-MM-JJ)
+        String dateFormatee = formateDateSansHeure(entrepreneur.getDateInscription());
+        dateField.setText(dateFormatee);
 
         // Mettre à jour les labels
         mettreAJourLabels(entrepreneur);
@@ -129,6 +135,31 @@ public class entrepreneurModifierController {
                 "Entrepreneur #" + idEntrepreneur + " chargé pour modification.\n" +
                         "Vous pouvez maintenant modifier ses informations."
         );
+    }
+
+    /**
+     * Formate une date pour supprimer l'heure et garder uniquement AAAA-MM-JJ
+     */
+    private String formateDateSansHeure(String dateString) {
+        if (dateString == null || dateString.trim().isEmpty()) {
+            return "";
+        }
+
+        try {
+            // Essayer d'abord avec le format DateTimeFormatter
+            LocalDate date = LocalDate.parse(dateString, DATE_FORMATTER);
+            return date.format(DATE_FORMATTER);
+        } catch (DateTimeParseException e1) {
+            try {
+                // Si le format a une heure, on la retire
+                String[] parts = dateString.split(" ");
+                LocalDate date = LocalDate.parse(parts[0], DATE_FORMATTER);
+                return date.format(DATE_FORMATTER);
+            } catch (Exception e2) {
+                // Retourner tel quel si impossible à parser
+                return dateString;
+            }
+        }
     }
 
     /**
@@ -341,7 +372,7 @@ public class entrepreneurModifierController {
     }
 
     /**
-     * Obtient une date d'inscription validée
+     * Obtient une date d'inscription validée (format AAAA-MM-JJ, sans heure)
      */
     private String obtenirDateInscriptionValidee() {
         String dateText = dateField.getText().trim();
@@ -353,12 +384,29 @@ public class entrepreneurModifierController {
         }
 
         try {
+            // Parser et reformater pour supprimer l'heure si présente
             LocalDate date = LocalDate.parse(dateText, DATE_FORMATTER);
-            return date.format(DATE_FORMATTER);
+            String dateFormatee = date.format(DATE_FORMATTER);
+
+            // S'assurer que c'est au format AAAA-MM-JJ sans heure
+            if (!dateFormatee.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+                return entrepreneurOriginal != null ?
+                        entrepreneurOriginal.getDateInscription() :
+                        LocalDate.now().format(DATE_FORMATTER);
+            }
+
+            return dateFormatee;
         } catch (DateTimeParseException e) {
-            return entrepreneurOriginal != null ?
-                    entrepreneurOriginal.getDateInscription() :
-                    LocalDate.now().format(DATE_FORMATTER);
+            // Essayer de nettoyer la date si elle contient une heure
+            try {
+                String[] parts = dateText.split(" ");
+                LocalDate date = LocalDate.parse(parts[0], DATE_FORMATTER);
+                return date.format(DATE_FORMATTER);
+            } catch (Exception ex) {
+                return entrepreneurOriginal != null ?
+                        entrepreneurOriginal.getDateInscription() :
+                        LocalDate.now().format(DATE_FORMATTER);
+            }
         }
     }
 
@@ -457,6 +505,25 @@ public class entrepreneurModifierController {
                         "Nouveau mot de passe : " + motDePasseGenere + "\n\n" +
                         "Conseil : Notez ce mot de passe dans un endroit sécurisé."
         );
+    }
+
+    /**
+     * Affiche/Masque le mot de passe
+     */
+    @FXML
+    private void afficherMotDePasse() {
+        // Cette fonctionnalité affiche le mot de passe en clair
+        if (!mdpField.getText().isEmpty()) {
+            afficherAlerteInformation(
+                    "Mot de passe actuel",
+                    "Mot de passe saisi : " + mdpField.getText()
+            );
+        } else {
+            afficherAlerteInformation(
+                    "Mot de passe",
+                    "Aucun mot de passe saisi. Le mot de passe original sera conservé."
+            );
+        }
     }
 
     /**

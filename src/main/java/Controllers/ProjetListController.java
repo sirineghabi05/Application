@@ -8,12 +8,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
@@ -212,37 +214,19 @@ public class ProjetListController {
         HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
 
-        // Bouton Modifier
-        Button editButton = new Button("Modifier");
-        editButton.setStyle("-fx-background-color: #4A6FA5; " +
-                "-fx-text-fill: white; " +
-                "-fx-font-weight: bold; " +
-                "-fx-background-radius: 8; " +
-                "-fx-padding: 8 16; " +
-                "-fx-cursor: hand;");
-        editButton.setOnAction(e -> handleEditProjet(projet));
-
-        // Bouton Supprimer
-        Button deleteButton = new Button("Supprimer");
-        deleteButton.setStyle("-fx-background-color: #E53E3E; " +
-                "-fx-text-fill: white; " +
-                "-fx-font-weight: bold; " +
-                "-fx-background-radius: 8; " +
-                "-fx-padding: 8 16; " +
-                "-fx-cursor: hand;");
-        deleteButton.setOnAction(e -> handleDeleteProjet(projet));
-
-        // Bouton Détails
-        Button detailsButton = new Button("Détails");
-        detailsButton.setStyle("-fx-background-color: #48BB78; " +
-                "-fx-text-fill: white; " +
-                "-fx-font-weight: bold; " +
-                "-fx-background-radius: 8; " +
-                "-fx-padding: 8 16; " +
-                "-fx-cursor: hand;");
+        Button detailsButton = new Button("👁️ Détails");
+        detailsButton.setStyle("-fx-background-color: #4A90E2; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;");
         detailsButton.setOnAction(e -> handleShowDetails(projet));
 
-        buttonBox.getChildren().addAll(editButton, detailsButton, deleteButton);
+        Button editButton = new Button("✏️ Modifier");
+        editButton.setStyle("-fx-background-color: #ED8936; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;");
+        editButton.setOnAction(e -> handleEditProjet(projet));
+
+        Button deleteButton = new Button("🗑️ Supprimer");
+        deleteButton.setStyle("-fx-background-color: #E53E3E; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;");
+        deleteButton.setOnAction(e -> handleDeleteProjet(projet));
+
+        buttonBox.getChildren().addAll(detailsButton, editButton, deleteButton);
         return buttonBox;
     }
 
@@ -320,7 +304,7 @@ public class ProjetListController {
             Parent root = loader.load();
 
             projetModifierController modifierController = loader.getController();
-            modifierController.setProjet(projet);
+            modifierController.initData(projet);
 
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -373,79 +357,6 @@ public class ProjetListController {
     }
 
     @FXML
-    private void handleShowDetails(Projet projet) {
-        Alert detailsAlert = new Alert(Alert.AlertType.INFORMATION);
-        detailsAlert.setTitle("Détails du projet");
-        detailsAlert.setHeaderText(projet.getNom_projet());
-
-        String details = String.format("""
-            📋 INFORMATIONS COMPLÈTES
-            ──────────────────────────────
-            
-            🆔 ID du projet : %d
-            
-            📌 Nom : %s
-            
-            📊 Statut : %s
-            
-            📅 Date de création : %s
-            
-            📝 Description :
-            %s
-            """,
-                projet.getId_projet(),
-                projet.getNom_projet(),
-                projet.getStatut() != null ? projet.getStatut() : "Non défini",
-                formatDateTime(projet.getDate_creation()),
-                projet.getDescription() != null ? projet.getDescription() : "Aucune description"
-        );
-
-        TextArea textArea = new TextArea(details);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-        textArea.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 13px; -fx-background-color: #F8FAFC;");
-        textArea.setPrefHeight(400);
-        textArea.setPrefWidth(500);
-
-        detailsAlert.getDialogPane().setContent(textArea);
-        detailsAlert.getDialogPane().setStyle("-fx-background-color: #FFFFFF;");
-        detailsAlert.showAndWait();
-    }
-
-    @FXML
-    private void handleRefresh() {
-        loadProjets();
-        updateStatistics();
-        showInfoAlert("Rafraîchissement",
-                "✅ Liste des projets rafraîchie.\n" +
-                        "Nombre de projets : " + projetList.size());
-    }
-
-    @FXML
-    private void handleAddNew() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ajouter_projet.fxml"));
-            Parent root = loader.load();
-
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("Ajouter un nouveau projet");
-            stage.setScene(scene);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(projetListView.getScene().getWindow());
-            stage.setMinWidth(700);
-            stage.setMinHeight(600);
-            stage.showAndWait();
-
-            loadProjets();
-
-        } catch (Exception e) {
-            showErrorAlert("Erreur d'ouverture",
-                    "Impossible d'ouvrir le formulaire d'ajout : " + e.getMessage());
-        }
-    }
-
-    @FXML
     private void handleClearSearch() {
         searchField.clear();
         statutFilterComboBox.setValue("Tous les statuts");
@@ -484,14 +395,6 @@ public class ProjetListController {
         } catch (Exception e) {
             showErrorAlert("Erreur d'exportation", "Impossible d'exporter les données : " + e.getMessage());
         }
-    }
-
-    private String escapeCSV(String value) {
-        if (value == null) return "";
-        if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
-            return "\"" + value.replace("\"", "\"\"") + "\"";
-        }
-        return value;
     }
 
     @FXML
@@ -549,7 +452,16 @@ public class ProjetListController {
         return total > 0 ? (valeur * 100.0 / total) : 0;
     }
 
-    // Méthodes utilitaires pour les alertes
+    private String escapeCSV(String value) {
+        if (value == null) return "";
+        if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
+            return "\"" + value.replace("\"", "\"\"") + "\"";
+        }
+        return value;
+    }
+
+    // ============ MÉTHODES D'ALERTE ============
+
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -575,5 +487,61 @@ public class ProjetListController {
         alert.setContentText(message);
         alert.getDialogPane().setStyle("-fx-background-color: #F8FAFC;");
         alert.showAndWait();
+    }
+
+    @FXML
+    private void handleShowDetails(Projet projet) {
+        if (projet != null) {
+            String details = "ID: " + projet.getId_projet() + "\n" +
+                    "Nom: " + projet.getNom_projet() + "\n" +
+                    "Statut: " + projet.getStatut() + "\n" +
+                    "Date création: " + (projet.getDate_creation() != null ? projet.getDate_creation() : "N/A") + "\n" +
+                    "Description: " + (projet.getDescription() != null ? projet.getDescription() : "Aucune");
+
+            TextArea textArea = new TextArea(details);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Détails du projet");
+            alert.setHeaderText("👁️ Détails: " + projet.getNom_projet());
+            alert.getDialogPane().setContent(textArea);
+            alert.getDialogPane().setStyle("-fx-background-color: #FFFFFF;");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleRefresh() {
+        loadProjets();
+        updateStatistics();
+        showInfoAlert("Rafraîchissement", "✅ Liste des projets rafraîchie.");
+    }
+
+    @FXML
+    private void handleAddNew() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ajouter_Projet.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root, 850, 750);
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter un nouveau projet");
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(projetListView.getScene().getWindow());
+
+            stage.setOnHidden(e -> {
+                loadProjets();
+                updateStatistics();
+            });
+
+            stage.show();
+
+        } catch (Exception e) {
+            showErrorAlert("Erreur d'ouverture",
+                    "Impossible d'ouvrir le formulaire d'ajout : " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

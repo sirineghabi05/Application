@@ -7,130 +7,135 @@
 
 <VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="Controllers.ProjetListController"
-      spacing="20" style="-fx-background-color: #F7FAFC; -fx-padding: 30;">
+      spacing="0" style="-fx-background-color: #F0F4F8;">
 
-    <!-- En-tête avec titre -->
-    <HBox spacing="20" alignment="CENTER_LEFT">
-        <VBox>
-            <Label text="Gestion des Projets"
-                   style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2D3748;"/>
-            <Label text="Gérez votre liste de projets de manière efficace"
-                   style="-fx-font-size: 14px; -fx-text-fill: #718096; -fx-padding: 5 0 0 0;"/>
-        </VBox>
-
-        <Region HBox.hgrow="ALWAYS"/>
-
-        <!-- Bouton Ajouter -->
-        <Button text="+ Ajouter un projet"
-                style="-fx-background-color: #4A6FA5; -fx-text-fill: white; -fx-font-weight: bold;
-                       -fx-background-radius: 8; -fx-padding: 12 24; -fx-font-size: 14px;"
-                onAction="#handleAddNew"/>
-    </HBox>
-
-    <!-- Ligne de séparation -->
-    <Separator style="-fx-background-color: #E2E8F0;"/>
-
-    <!-- Barre de recherche et filtres -->
-    <VBox spacing="15">
-        <!-- Première ligne : recherche et filtres -->
+    <!-- En-tête avec gradient -->
+    <VBox spacing="20" style="-fx-background-color: linear-gradient(to right, #2D5F7F, #4A90E2); -fx-padding: 30;">
         <HBox spacing="20" alignment="CENTER_LEFT">
-            <!-- Barre de recherche -->
-            <TextField fx:id="searchField"
-                       style="-fx-background-color: #F8FAFC; -fx-border-color: #CBD5E0;
-                              -fx-border-radius: 8; -fx-background-radius: 8;
-                              -fx-padding: 10 15; -fx-font-size: 14px; -fx-pref-width: 350px;"
-                       promptText="Rechercher un projet par nom, description ou ID..."/>
+            <VBox spacing="5">
+                <Label text="📊 Gestion des Projets"
+                       style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #FFFFFF;"/>
+                <Label text="Gérez vos projets de manière professionnelle"
+                       style="-fx-font-size: 14px; -fx-text-fill: #E8F0F7; -fx-padding: 5 0 0 0;"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="➕ Nouveau Projet"
+                    style="-fx-background-color: #48BB78; -fx-text-fill: white; -fx-font-weight: bold;
+                           -fx-background-radius: 8; -fx-padding: 14 28; -fx-font-size: 14px; -fx-cursor: hand;"
+                    onAction="#handleAddNew"/>
+        </HBox>
+    </VBox>
 
-            <!-- Filtre par statut -->
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="Filtrer par statut :"
-                       style="-fx-font-size: 14px; -fx-text-fill: #4A5568; -fx-font-weight: bold;"/>
+    <!-- Contenu principal -->
+    <VBox spacing="20" style="-fx-padding: 25;" VBox.vgrow="ALWAYS">
+
+        <!-- Barre de recherche et filtres avancés -->
+        <VBox spacing="12" style="-fx-background-color: #FFFFFF; -fx-border-radius: 10;
+                                  -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);
+                                  -fx-padding: 18;">
+
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField"
+                           style="-fx-background-color: #F5F7FA; -fx-border-color: #D5DDE5;
+                                  -fx-border-radius: 8; -fx-background-radius: 8;
+                                  -fx-padding: 10 15; -fx-font-size: 13px; -fx-pref-width: 350px;
+                                  -fx-text-fill: #2D3748;"
+                           promptText="🔍 Rechercher par nom, description, ID..."/>
+
                 <ComboBox fx:id="statutFilterComboBox"
-                          style="-fx-background-color: #F8FAFC; -fx-border-color: #CBD5E0;
+                          style="-fx-background-color: #F5F7FA; -fx-border-color: #D5DDE5;
                                  -fx-border-radius: 8; -fx-background-radius: 8;
-                                 -fx-padding: 5 10; -fx-font-size: 14px; -fx-pref-width: 150px;"/>
-            </HBox>
+                                 -fx-padding: 8 12; -fx-font-size: 13px; -fx-pref-width: 180px;"
+                          promptText="📌 Filtrer par statut"/>
 
-            <Region HBox.hgrow="ALWAYS"/>
+                <Region HBox.hgrow="ALWAYS"/>
 
-            <!-- Boutons d'action rapide -->
-            <HBox spacing="10">
-                <Button text="Effacer"
-                        style="-fx-background-color: #CBD5E0; -fx-text-fill: #4A5568;
-                               -fx-background-radius: 6; -fx-padding: 8 16; -fx-font-weight: bold;"
-                        onAction="#handleClearSearch"/>
-                <Button text="Rafraîchir"
-                        style="-fx-background-color: #48BB78; -fx-text-fill: white;
-                               -fx-background-radius: 6; -fx-padding: 8 16; -fx-font-weight: bold;"
+                <Button text="↻ Rafraîchir"
+                        style="-fx-background-color: #4A90E2; -fx-text-fill: white;
+                               -fx-background-radius: 6; -fx-padding: 8 16; -fx-font-weight: bold; -fx-font-size: 12px; -fx-cursor: hand;"
                         onAction="#handleRefresh"/>
+                <Button text="✕ Effacer"
+                        style="-fx-background-color: #CBD5E0; -fx-text-fill: #2D3748;
+                               -fx-background-radius: 6; -fx-padding: 8 16; -fx-font-weight: bold; -fx-font-size: 12px; -fx-cursor: hand;"
+                        onAction="#handleClearSearch"/>
             </HBox>
+        </VBox>
+
+        <!-- Statistiques avec cartes -->
+        <HBox spacing="15" alignment="TOP_LEFT">
+            <!-- Carte 1: Total projets -->
+            <VBox spacing="10" style="-fx-background-color: #FFFFFF; -fx-border-radius: 10;
+                                      -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 3, 0, 0, 1);
+                                      -fx-padding: 18;" HBox.hgrow="ALWAYS">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="📦" style="-fx-font-size: 24px;"/>
+                    <VBox spacing="3">
+                        <Label text="Total Projets" style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-font-weight: bold;"/>
+                        <Label fx:id="totalProjetsLabel" text="0"
+                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2D5F7F;"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Carte 2: Résultats -->
+            <VBox spacing="10" style="-fx-background-color: #FFFFFF; -fx-border-radius: 10;
+                                      -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 3, 0, 0, 1);
+                                      -fx-padding: 18;" HBox.hgrow="ALWAYS">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="🎯" style="-fx-font-size: 24px;"/>
+                    <VBox spacing="3">
+                        <Label text="Résultats" style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-font-weight: bold;"/>
+                        <Label fx:id="activeSearchLabel" text="0"
+                               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #48BB78;"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Carte 3: Dernier projet -->
+            <VBox spacing="10" style="-fx-background-color: #FFFFFF; -fx-border-radius: 10;
+                                      -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 3, 0, 0, 1);
+                                      -fx-padding: 18;" HBox.hgrow="ALWAYS">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="⏱️" style="-fx-font-size: 24px;"/>
+                    <VBox spacing="3">
+                        <Label text="Dernier" style="-fx-font-size: 12px; -fx-text-fill: #718096; -fx-font-weight: bold;"/>
+                        <Label fx:id="lastCreationLabel" text="N/A"
+                               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #4A6FA5;"/>
+                    </VBox>
+                </HBox>
+            </VBox>
         </HBox>
+
+        <!-- Tableau des projets -->
+        <VBox spacing="12" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="📋 Liste Détaillée" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #334155;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="📊 Statistiques Avancées"
+                        style="-fx-background-color: linear-gradient(to right, #4A6FA5, #5B7DB1); -fx-text-fill: white;
+                               -fx-background-radius: 6; -fx-padding: 8 16; -fx-font-weight: bold; -fx-font-size: 12px; -fx-cursor: hand;"
+                        onAction="#handleShowStatistics"/>
+            </HBox>
+
+            <VBox style="-fx-background-color: white; -fx-border-radius: 12;
+                         -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 15, 0, 0, 5);
+                         -fx-padding: 0;" VBox.vgrow="ALWAYS">
+                <ListView fx:id="projetListView"
+                          style="-fx-background-color: transparent;"
+                          VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </VBox>
     </VBox>
 
-    <!-- Statistiques -->
-    <HBox spacing="40" alignment="CENTER_LEFT"
-          style="-fx-background-color: #FFFFFF; -fx-border-color: #E2E8F0; -fx-border-radius: 12;
-                 -fx-background-radius: 12; -fx-padding: 20;">
-
-        <VBox alignment="CENTER" spacing="5" HBox.hgrow="ALWAYS">
-            <Label text="Total projets"
-                   style="-fx-font-size: 14px; -fx-text-fill: #718096; -fx-font-weight: bold;"/>
-            <Label fx:id="totalProjetsLabel" text="0"
-                   style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #2D3748;"/>
-        </VBox>
-
-        <Separator orientation="VERTICAL" style="-fx-background-color: #E2E8F0;"/>
-
-        <VBox alignment="CENTER" spacing="5" HBox.hgrow="ALWAYS">
-            <Label text="Résultats actuels"
-                   style="-fx-font-size: 14px; -fx-text-fill: #718096; -fx-font-weight: bold;"/>
-            <Label fx:id="activeSearchLabel" text="0"
-                   style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #2D3748;"/>
-        </VBox>
-
-        <Separator orientation="VERTICAL" style="-fx-background-color: #E2E8F0;"/>
-
-        <VBox alignment="CENTER" spacing="5" HBox.hgrow="ALWAYS">
-            <Label text="Dernier projet"
-                   style="-fx-font-size: 14px; -fx-text-fill: #718096; -fx-font-weight: bold;"/>
-            <Label fx:id="lastCreationLabel" text="N/A"
-                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2D3748;"/>
-        </VBox>
+    <!-- Pied de page -->
+    <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-background-color: white;
+                                                       -fx-border-color: #E2E8F0; -fx-border-width: 1 0 0 0;
+                                                       -fx-padding: 15 25;">
+        <Label text="© 2024 Système de Gestion de Projets" style="-fx-font-size: 11px; -fx-text-fill: #CBD5E0;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="📤 Exporter"
+                style="-fx-background-color: linear-gradient(to right, #4A6FA5, #5B7DB1); -fx-text-fill: white;
+                       -fx-background-radius: 6; -fx-padding: 8 16; -fx-font-weight: bold; -fx-font-size: 12px; -fx-cursor: hand;"
+                onAction="#handleExport"/>
     </HBox>
-
-    <!-- Liste des projets -->
-    <VBox spacing="20" VBox.vgrow="ALWAYS">
-        <HBox alignment="CENTER_LEFT" spacing="10">
-            <Label text="📋 Liste des Projets"
-                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #4A5568;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="📊 Statistiques"
-                    style="-fx-background-color: #805AD5; -fx-text-fill: white;
-                           -fx-background-radius: 6; -fx-padding: 8 16; -fx-font-weight: bold;"
-                    onAction="#handleShowStatistics"/>
-        </HBox>
-
-        <ScrollPane fitToWidth="true"
-                    style="-fx-background-color: transparent; -fx-border-color: transparent;
-                           -fx-background: transparent;"
-                    vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
-            <ListView fx:id="projetListView"
-                      style="-fx-background-color: transparent;"
-                      VBox.vgrow="ALWAYS"/>
-        </ScrollPane>
-
-        <!-- Pied de page -->
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button text="📤 Exporter la liste"
-                    style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568;
-                           -fx-background-radius: 6; -fx-padding: 8 16; -fx-font-weight: bold;"
-                    onAction="#handleExport"/>
-            <Label text="© 2024 Gestion de Projets"
-                   style="-fx-font-size: 12px; -fx-text-fill: #A0AEC0;"/>
-        </HBox>
-    </VBox>
-
-    <padding>
-        <Insets top="20" right="30" bottom="20" left="30"/>
-    </padding>
 </VBox>
